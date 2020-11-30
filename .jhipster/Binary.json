@@ -1,0 +1,31 @@
+{
+    "name": "Binary",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "statement",
+            "otherEntityRelationshipName": "binary",
+            "relationshipName": "statement",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "operator",
+            "otherEntityRelationshipName": "binary",
+            "relationshipName": "operator",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20201130180029",
+    "entityTableName": "binary",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}

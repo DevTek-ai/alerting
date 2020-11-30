@@ -1,0 +1,24 @@
+{
+    "name": "Comment",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "triggeredAlert",
+            "otherEntityRelationshipName": "comment",
+            "relationshipName": "triggeredAlert",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20201130180023",
+    "entityTableName": "comment",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}

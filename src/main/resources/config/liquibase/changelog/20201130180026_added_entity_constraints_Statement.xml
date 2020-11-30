@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Statement.
+    -->
+    <changeSet id="20201130180026-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="operand_id"
+                                 baseTableName="statement"
+                                 constraintName="fk_statement_operand_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="operand"/>
+
+        <addForeignKeyConstraint baseColumnNames="operator_id"
+                                 baseTableName="statement"
+                                 constraintName="fk_statement_operator_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="operator"/>
+
+        <addForeignKeyConstraint baseColumnNames="binary_id"
+                                 baseTableName="statement"
+                                 constraintName="fk_statement_binary_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_binary"/>
+
+    </changeSet>
+</databaseChangeLog>

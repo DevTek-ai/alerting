@@ -1,0 +1,48 @@
+{
+    "name": "Statement",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "operand",
+            "otherEntityRelationshipName": "statement",
+            "relationshipName": "operand",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "operator",
+            "otherEntityRelationshipName": "statement",
+            "relationshipName": "operator",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "binary",
+            "otherEntityRelationshipName": "statement",
+            "relationshipName": "binary",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "alertDefinition",
+            "otherEntityRelationshipName": "statement",
+            "relationshipName": "alertDefinition",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20201130180026",
+    "entityTableName": "statement",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}

@@ -1,0 +1,54 @@
+{
+    "name": "TriggeredAlert",
+    "fields": [
+        {
+            "fieldName": "status",
+            "fieldType": "TriggeredStatus",
+            "fieldValues": "ACTIVE,INACTIVE,RESOLVED"
+        },
+        {
+            "fieldName": "dateCreated",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dateUpdated",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "targetUrl",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "alertHistory",
+            "otherEntityRelationshipName": "triggeredAlert",
+            "relationshipName": "alertHistory"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "triggeredAlert",
+            "relationshipName": "comment"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "alertDefinition",
+            "otherEntityRelationshipName": "triggeredAlert",
+            "relationshipName": "alertDefinition",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20201130180022",
+    "entityTableName": "triggered_alert",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}
