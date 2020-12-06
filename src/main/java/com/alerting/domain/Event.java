@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
-    private int id;
+    private String id;
     private String object;
     private Instant date;
     private String action;
     private List<Change> changes = new ArrayList<Change>();
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
