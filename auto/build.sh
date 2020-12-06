@@ -26,6 +26,7 @@ if [[ ! -z "${BUILD_VERSION}" ]]; then
   
   IMAGE_TAG=${BUILD_VERSION:=latest}
   ./mvnw package -Pprod -Dmaven.test.skip=true -DskipTests jib:dockerBuild  
+  docker tag alerting event-microservice
   docker tag event-microservice:latest ${REPOSITORY_URI}:latest
   docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}
   docker push ${REPOSITORY_URI}:latest
