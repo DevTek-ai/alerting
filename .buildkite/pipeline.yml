@@ -11,6 +11,12 @@ steps:
       BUILD_VERSION: "${BUILDKITE_BUILD_NUMBER}"
       ENV: "dev"
 
+  - wait
+  
+  - block: ":green_button: Deploy to QA"
+    prompt: "Deploy Event MS to QA environment?"
+    branches: master main
+
   - command:
     - auto/build.sh
     # - auto/deploy_qa.sh
