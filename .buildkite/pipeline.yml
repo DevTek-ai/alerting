@@ -1,10 +1,8 @@
 steps:
 
-  - command:
-    - auto/generate_release_notes.sh
+  - command:    
     - auto/build.sh
-    - auto/deploy_dev.sh
-    - auto/generate_version_file.sh
+    # - auto/deploy_dev.sh
     label: ":package: & :rocket: Build & Deploy Dev: VERSION -> ${BUILDKITE_BUILD_NUMBER}"
     branches: dev devops
     agents:
@@ -14,12 +12,10 @@ steps:
       ENV: "dev"
 
   - command:
-    - auto/generate_release_notes.sh
     - auto/build.sh
-    - auto/deploy_qa.sh
-    - auto/generate_version_file.sh
+    # - auto/deploy_qa.sh
     label: ":package: & :rocket: Build & Deploy QA: VERSION -> ${BUILDKITE_BUILD_NUMBER}"
-    branches: master
+    branches: master main
     agents:
       queue: "wo:nonprod"
     env:
@@ -30,15 +26,13 @@ steps:
 
   - block: ":green_button: Deploy to PROD"
     prompt: "Deploy WO to PROD environment?"
-    branches: "master"
+    branches: master main
 
-  - command: 
-    - auto/generate_release_notes.sh
+  - command:     
     - auto/build.sh
-    - auto/deploy_prod.sh
-    - auto/generate_version_file.sh
+    # - auto/deploy_prod.sh
     label: ":package: & :rocket: Build & Deploy PROD: VERSION -> ${BUILDKITE_BUILD_NUMBER}"
-    branches: master
+    branches: master main
     agents:
       queue: "wo:prod"
     env:
