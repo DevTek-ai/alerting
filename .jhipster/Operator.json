@@ -1,0 +1,45 @@
+{
+    "name": "Operator",
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "binary",
+            "otherEntityRelationshipName": "operator",
+            "relationshipName": "binary",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "unary",
+            "otherEntityRelationshipName": "operator",
+            "relationshipName": "unary",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "statement",
+            "otherEntityRelationshipName": "operator",
+            "relationshipName": "statement",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20201209194018",
+    "entityTableName": "operator",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}

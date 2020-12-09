@@ -125,7 +125,7 @@ spring:
 
 server:
   servlet:
-    context-path: /services/${spring.application.name}
+    context-path: /
     session:
       cookie:
         http-only: true

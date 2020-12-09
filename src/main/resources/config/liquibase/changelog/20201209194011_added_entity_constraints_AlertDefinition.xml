@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity AlertDefinition.
+    -->
+    <changeSet id="20201209194011-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="schedular_id"
+                                 baseTableName="alert_definition"
+                                 constraintName="fk_alert_definition_schedular_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="schedular"/>
+
+        <addForeignKeyConstraint baseColumnNames="statement_id"
+                                 baseTableName="alert_definition"
+                                 constraintName="fk_alert_definition_statement_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="statement"/>
+
+    </changeSet>
+</databaseChangeLog>

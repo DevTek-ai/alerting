@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Operator.
+    -->
+    <changeSet id="20201209194018-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="binary_id"
+                                 baseTableName="operator"
+                                 constraintName="fk_operator_binary_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_binary"/>
+
+        <addForeignKeyConstraint baseColumnNames="unary_id"
+                                 baseTableName="operator"
+                                 constraintName="fk_operator_unary_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="unary"/>
+
+    </changeSet>
+</databaseChangeLog>

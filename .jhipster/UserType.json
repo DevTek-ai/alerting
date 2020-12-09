@@ -1,0 +1,29 @@
+{
+    "name": "UserType",
+    "fields": [
+        {
+            "fieldName": "userTypeId",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "alertDefinition",
+            "otherEntityRelationshipName": "userType",
+            "relationshipName": "alertDefinition",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20201209194010",
+    "entityTableName": "user_type",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}

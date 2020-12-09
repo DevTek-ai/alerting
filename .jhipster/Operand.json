@@ -1,0 +1,29 @@
+{
+    "name": "Operand",
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "statement",
+            "otherEntityRelationshipName": "operand",
+            "relationshipName": "statement",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20201209194017",
+    "entityTableName": "operand",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "alerting",
+    "applications": "*",
+    "microserviceName": "alerting"
+}
