@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.alerting"
+    },
+    "jhipsterVersion": "6.6.0",
+    "applicationType": "microservice",
+    "baseName": "alerting",
+    "packageName": "com.alerting",
+    "packageFolder": "com/alerting",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YmRmNjFhMzBkYjZhNzMzNGY2NDQ5ZDhhZDEyZDQxNWQyOTdhYmUzYzIyNDgzYTgwMmI3ZDM0NDkwMTc4YmZhYzRkOWYwYjRkMGUxNzY5YzkwNmU4YmI4NjU1MjM0YThiODM0OTA3Zjc2ZjRiNmQ2ZjZmNjZiNmVkZDQwZDEyNmI=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1607542288990,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
