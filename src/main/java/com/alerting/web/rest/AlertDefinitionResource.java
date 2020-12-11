@@ -23,7 +23,7 @@ import java.util.Optional;
  * REST controller for managing {@link com.alerting.domain.AlertDefinition}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/alert/api")
 @Transactional
 public class AlertDefinitionResource {
 
