@@ -47,6 +47,10 @@ public class AlertDefinition implements Serializable {
     @Column(name = "date_updated")
     private Instant dateUpdated;
 
+    @Column(name = "query_statement")
+    private String alertRuleQuery;
+
+
     @OneToOne
     @JoinColumn(unique = true)
     private Schedular schedular;
@@ -248,6 +252,15 @@ public class AlertDefinition implements Serializable {
         }
         return id != null && id.equals(((AlertDefinition) o).id);
     }
+
+    public String getAlertRuleQuery() {
+        return alertRuleQuery;
+    }
+
+    public void setAlertRuleQuery(String alertRuleQuery) {
+        this.alertRuleQuery = alertRuleQuery;
+    }
+
 
     @Override
     public int hashCode() {

@@ -1,9 +1,11 @@
 package com.alerting.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 /**
  * A AlertHistory.
@@ -47,6 +49,39 @@ public class AlertHistory implements Serializable {
 
     @Column(name = "user_id")
     private Long userId;
+
+    @Column(name="category")
+    private Integer category;
+
+    @Column(name="created_date")
+    private Instant dateCreated;
+
+    @Column(name="modified_date")
+    private Instant dateModified;
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+
+    public Instant getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Instant dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Instant getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Instant dateModified) {
+        this.dateModified = dateModified;
+    }
 
     @ManyToOne
     @JsonIgnoreProperties("alertHistories")
