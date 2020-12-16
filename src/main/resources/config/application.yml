@@ -175,3 +175,7 @@ jhipster:
 # ===================================================================
 
 # application:
+
+woa-url: "http://localhost:8080"
+woa-user: "admin"
+woa-pass: "admin"
