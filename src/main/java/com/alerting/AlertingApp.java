@@ -1,6 +1,7 @@
 package com.alerting;
 
 import com.alerting.config.ApplicationProperties;
+import com.alerting.eventing.EventListener;
 
 import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
@@ -94,5 +95,10 @@ public class AlertingApp implements InitializingBean {
             serverPort,
             contextPath,
             env.getActiveProfiles());
+
+        log.info("\n-----Starting SQS Listener ------");
+
+        EventListener listener = new EventListener();
+        listener.listen();
     }
 }
