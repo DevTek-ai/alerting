@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @SpringBootApplication
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class})
 public class AlertingApp implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(AlertingApp.class);
@@ -97,8 +97,5 @@ public class AlertingApp implements InitializingBean {
             env.getActiveProfiles());
 
         log.info("\n-----Starting SQS Listener ------");
-
-        EventListener listener = new EventListener();
-        listener.listen();
     }
 }
