@@ -2,6 +2,7 @@ package com.alerting.eventing;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,8 +61,12 @@ public class SQSListener implements MessageListener {
             List<AlertDefinition> alertDefinitionList = alertDefinitionRepository.findAll();
             for (AlertDefinition alertDefinition: alertDefinitionList)
             {
+                List<String> splitQuery = new ArrayList<>();
                 String query = alertDefinition.getAlertRuleQuery();
-                List<String> splitQuery= Arrays.asList(query.split("[ .]+"));
+                if(query!=null){
+                     splitQuery= Arrays.asList(query.split("[ .]+"));
+                }
+
                 int matchCount = 0;
                 for (String word: splitQuery)
                 {
