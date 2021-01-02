@@ -46,9 +46,6 @@ public class SQSListener implements MessageListener {
     public void onMessage(Message message) {
         try {
             // Cast the received message as TextMessage and print the text to screen.
-            System.out.println("===============================================");
-            System.out.println("===============================================");
-            System.out.println("===============================================");
             System.out.println(
                     "===============================================Received: " + ((TextMessage) message).getText());
 
@@ -84,14 +81,17 @@ public class SQSListener implements MessageListener {
                 if(matchCount == 3)
                 {
                     String token = new AuthenticateWOA().getAccessToken();
+                    System.out.println("Query matched" + query);
                     log.debug("Query matched"+query);
                     QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,query);
 
                     log.debug("Invoked Count Service Status = "+queryResponse.getStatus());
+                    System.out.println("Invoked Count Service Status = "+queryResponse.getStatus());
                     log.debug("Going to send Notification to following tokens  = "+queryResponse.getFirebaseTokens());
 
                     if(queryResponse.getStatus()){
                         log.debug("Starting firebase Dispatch");
+                        System.out.println("starting firebase disptach");
                         for (String firebaseToken: queryResponse.getFirebaseTokens()) {
                             FirebaseHandler.dispatch(firebaseToken,"default message",1l);
                             log.debug("Firebase message dispatched to"+ firebaseToken);
@@ -99,6 +99,7 @@ public class SQSListener implements MessageListener {
 
                     }
                 }else{
+                    System.out.println("no Query matched");
                     log.debug("no Query matched");
                 }
             }
