@@ -98,7 +98,7 @@ public class SQSListener implements MessageListener {
                             history.setDateCreated(Instant.now());
                             history.setWebSockectRead(false);
                             history.setCategory(1);
-                            history.setMessage("default message");
+                            history.setMessage(alertDefinition.getMessage());
                             history.setSubject("test");
                             AlertHistory save = alertHistoryRepository.save(history);
                             FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
