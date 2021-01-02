@@ -2,6 +2,7 @@ package com.alerting.eventing;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,11 +12,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import com.alerting.domain.AlertDefinition;
-import com.alerting.domain.Change;
-import com.alerting.domain.Event;
-import com.alerting.domain.QueryResponse;
+import com.alerting.domain.*;
 import com.alerting.repository.AlertDefinitionRepository;
+import com.alerting.repository.AlertHistoryRepository;
 import com.alerting.service.AuthenticateWOA;
 import com.alerting.service.FirebaseHandler;
 import com.alerting.service.InvokeQuery;
@@ -42,6 +41,8 @@ public class SQSListener implements MessageListener {
 
     @Autowired
     AlertDefinitionRepository alertDefinitionRepository;
+    @Autowired
+     AlertHistoryRepository alertHistoryRepository;
 
     public void onMessage(Message message) {
         try {
@@ -93,8 +94,15 @@ public class SQSListener implements MessageListener {
                         log.debug("Starting firebase Dispatch");
                         System.out.println("starting firebase disptach");
                         for (String firebaseToken: queryResponse.getFirebaseTokens()) {
-                            FirebaseHandler.dispatch(firebaseToken,"default message",1l);
-                            log.debug("Firebase message dispatched to"+ firebaseToken);
+                            AlertHistory history = new AlertHistory();
+                            history.setDateCreated(Instant.now());
+                            history.setWebSockectRead(false);
+                            history.setCategory(1);
+                            history.setMessage("default message");
+                            history.setSubject("test");
+                            AlertHistory save = alertHistoryRepository.save(history);
+                            FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
+                            System.out.println("message dispatched");
                         }
 
                     }

@@ -2,6 +2,7 @@ package com.alerting.web.rest;
 
 import com.alerting.domain.*;
 import com.alerting.repository.AlertDefinitionRepository;
+import com.alerting.repository.AlertHistoryRepository;
 import com.alerting.repository.OperatorRepository;
 
 import com.alerting.service.AuthenticateWOA;
@@ -10,16 +11,12 @@ import com.alerting.service.InvokeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,10 +40,12 @@ public class EventResource {
 
     private final OperatorRepository operatorRepository;
     private final AlertDefinitionRepository alertDefinitionRepository;
+    private final AlertHistoryRepository alertHistoryRepository;
 
-    public EventResource(OperatorRepository operatorRepository, AlertDefinitionRepository alertDefinitionRepository) {
+    public EventResource(OperatorRepository operatorRepository, AlertDefinitionRepository alertDefinitionRepository, AlertHistoryRepository alertHistoryRepository) {
         this.operatorRepository = operatorRepository;
         this.alertDefinitionRepository = alertDefinitionRepository;
+        this.alertHistoryRepository = alertHistoryRepository;
     }
 
     /**
@@ -91,8 +90,16 @@ public class EventResource {
                 if(queryResponse.getStatus()){
                     log.debug("Starting firebase Dispatch");
                     for (String firebaseToken: queryResponse.getFirebaseTokens()) {
-                        FirebaseHandler.dispatch(firebaseToken,"default message",1l);
+
                         log.debug("Firebase message dispatched to"+ firebaseToken);
+                        AlertHistory history = new AlertHistory();
+                        history.setDateCreated(Instant.now());
+                        history.setWebSockectRead(false);
+                        history.setCategory(1);
+                        history.setMessage("default message");
+                        history.setSubject("test");
+                        AlertHistory save = alertHistoryRepository.save(history);
+                        FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
                     }
 
                 }
