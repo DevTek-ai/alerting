@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,7 @@ public class AlertDefinitionResource {
         if (alertDefinition.getId() != null) {
             throw new BadRequestAlertException("A new alertDefinition cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        alertDefinition.setDateCreated(Instant.now());
         AlertDefinition result = alertDefinitionRepository.save(alertDefinition);
         return ResponseEntity.created(new URI("/api/alert-definitions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -74,6 +76,7 @@ public class AlertDefinitionResource {
         if (alertDefinition.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        alertDefinition.setDateUpdated(Instant.now());
         AlertDefinition result = alertDefinitionRepository.save(alertDefinition);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, alertDefinition.getId().toString()))
