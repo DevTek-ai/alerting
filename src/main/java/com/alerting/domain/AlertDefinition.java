@@ -51,6 +51,83 @@ public class AlertDefinition implements Serializable {
     private String alertRuleQuery;
 
 
+    @Column(name="condition")
+    private String conditionSelection;
+
+    @Column(name="type")
+    private String typeSelection;
+
+    @Column(name="attribute")
+    private String attributeSelection;
+
+    @Column(name="behaviour")
+    private String behaviourSelection;
+
+    @Column(name="from")
+    private Instant from;
+
+    @Column(name="to")
+    private Instant to;
+
+    @Column(name="custom")
+    private String customattributeSelection;
+
+    public String getCustomattributeSelection() {
+        return customattributeSelection;
+    }
+
+    public void setCustomattributeSelection(String customattributeSelection) {
+        this.customattributeSelection = customattributeSelection;
+    }
+
+    public String getConditionSelection() {
+        return conditionSelection;
+    }
+
+    public void setConditionSelection(String conditionSelection) {
+        this.conditionSelection = conditionSelection;
+    }
+
+    public String getTypeSelection() {
+        return typeSelection;
+    }
+
+    public void setTypeSelection(String typeSelection) {
+        this.typeSelection = typeSelection;
+    }
+
+    public String getAttributeSelection() {
+        return attributeSelection;
+    }
+
+    public void setAttributeSelection(String attributeSelection) {
+        this.attributeSelection = attributeSelection;
+    }
+
+    public String getBehaviourSelection() {
+        return behaviourSelection;
+    }
+
+    public void setBehaviourSelection(String behaviourSelection) {
+        this.behaviourSelection = behaviourSelection;
+    }
+
+    public Instant getFrom() {
+        return from;
+    }
+
+    public void setFrom(Instant from) {
+        this.from = from;
+    }
+
+    public Instant getTo() {
+        return to;
+    }
+
+    public void setTo(Instant to) {
+        this.to = to;
+    }
+
     @OneToOne
     @JoinColumn(unique = true)
     private Schedular schedular;
