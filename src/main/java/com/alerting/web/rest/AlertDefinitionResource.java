@@ -77,6 +77,7 @@ public class AlertDefinitionResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         alertDefinition.setDateUpdated(Instant.now());
+
         AlertDefinition result = alertDefinitionRepository.save(alertDefinition);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, alertDefinition.getId().toString()))

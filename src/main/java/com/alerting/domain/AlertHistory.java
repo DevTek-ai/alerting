@@ -59,6 +59,72 @@ public class AlertHistory implements Serializable {
     @Column(name="modified_date")
     private Instant dateModified;
 
+    @Column(name="condition")
+    private String condition;
+
+    @Column(name="type")
+    private String type;
+
+    @Column(name="attribute")
+    private String attribute;
+
+    @Column(name="behaviour")
+    private String behaviour;
+
+    @Column(name="from")
+    private Instant from;
+
+    @Column(name="to")
+    private Instant to;
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getBehaviour() {
+        return behaviour;
+    }
+
+    public void setBehaviour(String behaviour) {
+        this.behaviour = behaviour;
+    }
+
+    public Instant getFrom() {
+        return from;
+    }
+
+    public void setFrom(Instant from) {
+        this.from = from;
+    }
+
+    public Instant getTo() {
+        return to;
+    }
+
+    public void setTo(Instant to) {
+        this.to = to;
+    }
+
     public Integer getCategory() {
         return category;
     }
