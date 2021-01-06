@@ -60,7 +60,7 @@ public class AlertDefinition implements Serializable {
     private String conditionSelection;
 
     @Column(name="custom_attribute_selection")
-    private String customattributeSelection;
+    private String customAttributeSelection;
 
     @Column(name="from_date")
     private Instant fromDate;
@@ -70,27 +70,27 @@ public class AlertDefinition implements Serializable {
 
 
     public String getCustomAttributeSelection() {
-        return customattributeSelection;
+        return customAttributeSelection;
     }
 
     public void setCustomAttributeSelection(String customAttributeSelection) {
-        this.customattributeSelection = customAttributeSelection;
+        this.customAttributeSelection = customAttributeSelection;
     }
 
-    public Instant getFrom() {
+    public Instant getFromDate() {
         return fromDate;
     }
 
-    public void setFrom(Instant from) {
-        this.fromDate = from;
+    public void setFromDate(Instant fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public Instant getTo() {
+    public Instant getToDate() {
         return toDate;
     }
 
-    public void setTo(Instant to) {
-        this.toDate = to;
+    public void setToDate(Instant toDate) {
+        this.toDate = toDate;
     }
 
     public String getBehaviourSelection() {
