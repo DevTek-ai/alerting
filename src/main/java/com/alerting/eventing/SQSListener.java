@@ -95,6 +95,8 @@ public class SQSListener implements MessageListener {
                         System.out.println("starting firebase disptach");
                         for (String firebaseToken: queryResponse.getFirebaseTokens()) {
                             AlertHistory history = new AlertHistory();
+                            history.setTriggeredId(Long.valueOf(event.getId()));
+                            history.setTriggeredType(event.getObject());
                             history.setDateCreated(Instant.now());
                             history.setWebSockectRead(false);
                             history.setCategory(1);

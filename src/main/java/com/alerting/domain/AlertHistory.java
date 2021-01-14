@@ -59,6 +59,28 @@ public class AlertHistory implements Serializable {
     @Column(name="modified_date")
     private Instant dateModified;
 
+    @Column(name="triggered_id")
+    private Long triggeredId;
+
+    @Column(name="triggered_type")
+    private String triggeredType;
+
+    public Long getTriggeredId() {
+        return triggeredId;
+    }
+
+    public void setTriggeredId(Long triggeredId) {
+        this.triggeredId = triggeredId;
+    }
+
+    public String getTriggeredType() {
+        return triggeredType;
+    }
+
+    public void setTriggeredType(String triggeredType) {
+        this.triggeredType = triggeredType;
+    }
+
     public Integer getCategory() {
         return category;
     }
