@@ -83,7 +83,7 @@ public class SQSListener implements MessageListener {
 
                 }//split Query
                 for (Change changeAttribute: changeList) {
-                    if (alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
+                    if (alertDefinition.getCustomAttributeSelection()!=null && alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
                         matchCount++;
                 }
                 if(matchCount == 3)
@@ -125,11 +125,21 @@ public class SQSListener implements MessageListener {
                         thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
                         thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
                         awsEmail.sendSQS(thirdPartyDispatchForEmail);
+                        ObjectMapper Obj = new ObjectMapper();
+                        try {
+                            // get Oraganisation object as a json string
+                            String jsonStr = Obj.writeValueAsString(thirdPartyDispatchForEmail);
+                            // Displaying JSON String
+                            System.out.println("json for email === :" + jsonStr);
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         AWSService awsSms  = new AWSService(sqs);
                         ThirdPartyDispatch thirdPartyDispatchForSMS = new ThirdPartyDispatch();
                         List<String> sms = new ArrayList<String>();
-                        emails.add("sms");
+                        sms.add("sms");
                         thirdPartyDispatchForSMS.setChannels(sms);
                         thirdPartyDispatchForSMS.setMessage(alertDefinition.getMessage());
                         thirdPartyDispatchForSMS.setSubject(alertDefinition.getTitle());
