@@ -31,7 +31,7 @@ public class AWSService {
             SendMessageRequest send_msg_request = new SendMessageRequest()
                 .withQueueUrl(sqsQueue)
                 .withMessageBody(json)
-                .withMessageGroupId("alert");
+                .withMessageGroupId("Group1");
             SQS.sendMessage(send_msg_request);
         }
         catch(Exception ex){
