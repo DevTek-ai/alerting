@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,9 @@ public class SQSListener implements MessageListener {
     AlertDefinitionRepository alertDefinitionRepository;
     @Autowired
      AlertHistoryRepository alertHistoryRepository;
+
+    @Value("${sqs1-drop-event}")
+    private String sqs;
 
     public void onMessage(Message message) {
         try {
@@ -112,6 +116,25 @@ public class SQSListener implements MessageListener {
                             FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
                             System.out.println("message dispatched");
                         }
+                        AWSService awsEmail  = new AWSService(sqs);
+                        ThirdPartyDispatch thirdPartyDispatchForEmail = new ThirdPartyDispatch();
+                        List<String> emails = new ArrayList<String>();
+                        emails.add("email");
+                        thirdPartyDispatchForEmail.setChannels(emails);
+                        thirdPartyDispatchForEmail.setMessage(alertDefinition.getMessage());
+                        thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
+                        thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
+                        awsEmail.sendSQS(thirdPartyDispatchForEmail);
+
+                        AWSService awsSms  = new AWSService(sqs);
+                        ThirdPartyDispatch thirdPartyDispatchForSMS = new ThirdPartyDispatch();
+                        List<String> sms = new ArrayList<String>();
+                        emails.add("sms");
+                        thirdPartyDispatchForSMS.setChannels(sms);
+                        thirdPartyDispatchForSMS.setMessage(alertDefinition.getMessage());
+                        thirdPartyDispatchForSMS.setSubject(alertDefinition.getTitle());
+                        thirdPartyDispatchForSMS.setTo((alertDefinition.getRecipientPhoneNumber()));
+                        awsSms.sendSQS(thirdPartyDispatchForSMS);
 
                     }
                 }else{

@@ -10,6 +10,7 @@ import java.util.Set;
 import com.alerting.domain.enumeration.TriggerType;
 
 import com.alerting.domain.enumeration.Category;
+import org.checkerframework.checker.units.qual.C;
 
 /**
  * A AlertDefinition.
@@ -68,6 +69,27 @@ public class AlertDefinition implements Serializable {
     @Column(name="to_date")
     private Instant toDate;
 
+    @Column(name="recipient_email_address")
+    private String recipientEmailAddress;
+
+    @Column(name="recipient_phone_number")
+    private String recipientPhoneNumber;
+
+    public String getRecipientEmailAddress() {
+        return recipientEmailAddress;
+    }
+
+    public void setRecipientEmailAddress(String recipientEmailAddress) {
+        this.recipientEmailAddress = recipientEmailAddress;
+    }
+
+    public String getRecipientPhoneNumber() {
+        return recipientPhoneNumber;
+    }
+
+    public void setRecipientPhoneNumber(String recipientPhoneNumber) {
+        this.recipientPhoneNumber = recipientPhoneNumber;
+    }
 
     public String getCustomAttributeSelection() {
         return customAttributeSelection;
