@@ -66,25 +66,31 @@ public class SQSListener implements MessageListener {
                 }
 
                 int matchCount = 0;
+                List<Change> changeList = event.getChanges();
                 for (String word: splitQuery)
                 {
                     if(word.equalsIgnoreCase(event.getObject()))  matchCount++;
-                    List<Change> changeList = event.getChanges();
+
                     for (Change changeAttribute: changeList)
                     {
                         if(word.equalsIgnoreCase(changeAttribute.getAttribute()))  matchCount++;
-                        if(word.equalsIgnoreCase(changeAttribute.getNewValue()))  matchCount++;
-                    }//attribute matching
+                     }//attribute matching
 
 
                 }//split Query
-
+                for (Change changeAttribute: changeList) {
+                    if (alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
+                        matchCount++;
+                }
                 if(matchCount == 3)
                 {
                     String token = new AuthenticateWOA().getAccessToken();
                     System.out.println("Query matched" + query);
                     log.debug("Query matched"+query);
-                    QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,query);
+                    AlertQuery aQuery = new AlertQuery();
+                    aQuery.setQueryString(query);
+                    aQuery.setParam(alertDefinition.getCustomAttributeSelection());
+                    QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,aQuery);
 
                     log.debug("Invoked Count Service Status = "+queryResponse.getStatus());
                     System.out.println("Invoked Count Service Status = "+queryResponse.getStatus());

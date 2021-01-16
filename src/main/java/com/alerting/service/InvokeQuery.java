@@ -1,5 +1,6 @@
 package com.alerting.service;
 
+import com.alerting.domain.AlertQuery;
 import com.alerting.domain.JWTToken;
 import com.alerting.domain.LoginVM;
 import com.alerting.domain.QueryResponse;
@@ -32,7 +33,7 @@ public class InvokeQuery {
 
     InvokeQuery(){}
 
-    private InvokeQuery(String token, String query) throws URISyntaxException {
+    private InvokeQuery(String token, AlertQuery query) throws URISyntaxException {
       if(hostUrl!=null){
 
             RestTemplate template = new RestTemplate();
@@ -42,13 +43,13 @@ public class InvokeQuery {
             final String countUrl = hostUrl+"/api/query/count";
             URI countUri = new URI(countUrl);
             headers.set("Authorization", "Bearer "+ token);
-            HttpEntity<String>  countEntity = new HttpEntity<>(query,headers);
+            HttpEntity<AlertQuery>  countEntity = new HttpEntity<>(query,headers);
             ResponseEntity<QueryResponse> countService = template.postForEntity(countUri, countEntity, QueryResponse.class);
             queryResponse = countService.getBody();
       }
     }
 
-    public static QueryResponse getQueryResponse(String token, String query) throws URISyntaxException {
+    public static QueryResponse getQueryResponse(String token, AlertQuery query) throws URISyntaxException {
         if(invoke==null){
             InvokeQuery woa = new InvokeQuery(token,query);
             return woa.queryResponse;

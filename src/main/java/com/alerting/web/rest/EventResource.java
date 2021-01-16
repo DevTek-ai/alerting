@@ -82,7 +82,10 @@ public class EventResource {
             {
                 String token = new AuthenticateWOA().getAccessToken();
                 log.debug("Query matched"+query);
-                QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,query);
+                AlertQuery aQuery = new AlertQuery();
+                aQuery.setQueryString(query);
+                aQuery.setParam(alertDefinition.getCustomAttributeSelection());
+                QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,aQuery);
 
                 log.debug("Invoked Count Service Status = "+queryResponse.getStatus());
                 log.debug("Going to send Notification to following tokens  = "+queryResponse.getFirebaseTokens());
