@@ -74,6 +74,17 @@ public class AlertDefinition implements Serializable {
 
     @Column(name="recipient_phone_number")
     private String recipientPhoneNumber;
+    
+    @Column(name="body")
+    private String body;
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 
     public String getRecipientEmailAddress() {
         return recipientEmailAddress;
