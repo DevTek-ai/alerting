@@ -65,8 +65,6 @@ public class AlertHistory implements Serializable {
     @Column(name="triggered_type")
     private String triggeredType;
 
-
-
     public Long getTriggeredId() {
         return triggeredId;
     }

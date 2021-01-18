@@ -125,17 +125,7 @@ public class SQSListener implements MessageListener {
                         thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
                         thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
                         awsEmail.sendSQS(thirdPartyDispatchForEmail);
-                        ObjectMapper Obj = new ObjectMapper();
-                        try {
-                            // get Oraganisation object as a json string
-                            String jsonStr = Obj.writeValueAsString(thirdPartyDispatchForEmail);
-                            // Displaying JSON String
-                            System.out.println("json for email === :" + jsonStr);
-                        }
-                        catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+                 
                         AWSService awsSms  = new AWSService(sqs);
                         ThirdPartyDispatch thirdPartyDispatchForSMS = new ThirdPartyDispatch();
                         List<String> sms = new ArrayList<String>();
@@ -153,23 +143,19 @@ public class SQSListener implements MessageListener {
                 }
             }
 
-        } catch (JMSException e) {
-            e.printStackTrace();
-        } catch (JsonParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         }
-        // catch (URISyntaxException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
+        catch (JMSException e) {
+            System.out.println("JMS EXCEPTION");
+        } catch (JsonParseException e) {
+            System.out.println("JSON PARSE EXCEPTION");
+        } catch (JsonMappingException e) {
+            System.out.println("JSON MAPPING EXCEPTION");
+        } catch (IOException e) {
+            System.out.println("IO EXCEPTION");
+        } catch (URISyntaxException e) {
+            System.out.println("URI EXCEPTION");
+        } catch(Exception e){
+            System.out.println(" EXCEPTION");
+        }
     }
 }

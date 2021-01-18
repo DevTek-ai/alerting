@@ -64,17 +64,17 @@ public class AlertDefinition implements Serializable {
     private String customAttributeSelection;
 
     @Column(name="from_date")
-    private Instant fromDate;
+    private Instant from;
 
     @Column(name="to_date")
-    private Instant toDate;
+    private Instant to;
 
     @Column(name="recipient_email_address")
     private String recipientEmailAddress;
 
     @Column(name="recipient_phone_number")
     private String recipientPhoneNumber;
-    
+
     @Column(name="body")
     private String body;
 
@@ -110,20 +110,20 @@ public class AlertDefinition implements Serializable {
         this.customAttributeSelection = customAttributeSelection;
     }
 
-    public Instant getFromDate() {
-        return fromDate;
+    public Instant getFrom() {
+        return from;
     }
 
-    public void setFromDate(Instant fromDate) {
-        this.fromDate = fromDate;
+    public void setFrom(Instant from) {
+        this.from = from;
     }
 
-    public Instant getToDate() {
-        return toDate;
+    public Instant getTo() {
+        return to;
     }
 
-    public void setToDate(Instant toDate) {
-        this.toDate = toDate;
+    public void setTo(Instant to) {
+        this.to = to;
     }
 
     public String getBehaviourSelection() {
