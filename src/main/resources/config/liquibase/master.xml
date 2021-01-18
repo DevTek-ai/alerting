@@ -41,5 +41,6 @@
     <include file="config/liquibase/changelog/release1.6.alter.sql" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/release1.7.alter.sql" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/release1.8.alter.sql" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/release1.9.alter.sql" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
