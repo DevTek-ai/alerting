@@ -125,7 +125,7 @@ public class SQSListener implements MessageListener {
                         thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
                         thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
                         awsEmail.sendSQS(thirdPartyDispatchForEmail);
-                 
+
                         AWSService awsSms  = new AWSService(sqs);
                         ThirdPartyDispatch thirdPartyDispatchForSMS = new ThirdPartyDispatch();
                         List<String> sms = new ArrayList<String>();
