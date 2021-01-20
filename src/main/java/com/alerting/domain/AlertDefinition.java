@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import com.alerting.domain.enumeration.TriggerType;
 
 import com.alerting.domain.enumeration.Category;
-import org.checkerframework.checker.units.qual.C;
 
 /**
  * A AlertDefinition.
@@ -20,6 +20,14 @@ import org.checkerframework.checker.units.qual.C;
 public class AlertDefinition implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public List<String> getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(List<String> userTypes) {
+        this.userTypes = userTypes;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -172,8 +180,8 @@ public class AlertDefinition implements Serializable {
     @OneToMany(mappedBy = "alertDefinition")
     private Set<TriggeredAlert> triggeredAlerts = new HashSet<>();
 
-    @OneToMany(mappedBy = "alertDefinition")
-    private Set<UserType> userTypes = new HashSet<>();
+    @Convert(converter = StringListConverter.class)
+    private List<String> userTypes;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -326,31 +334,7 @@ public class AlertDefinition implements Serializable {
         this.triggeredAlerts = triggeredAlerts;
     }
 
-    public Set<UserType> getUserTypes() {
-        return userTypes;
-    }
 
-    public AlertDefinition userTypes(Set<UserType> userTypes) {
-        this.userTypes = userTypes;
-        return this;
-    }
-
-    public AlertDefinition addUserType(UserType userType) {
-        this.userTypes.add(userType);
-        userType.setAlertDefinition(this);
-        return this;
-    }
-
-    public AlertDefinition removeUserType(UserType userType) {
-        this.userTypes.remove(userType);
-        userType.setAlertDefinition(null);
-        return this;
-    }
-
-    public void setUserTypes(Set<UserType> userTypes) {
-        this.userTypes = userTypes;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

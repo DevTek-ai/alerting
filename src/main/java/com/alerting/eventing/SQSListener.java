@@ -83,8 +83,16 @@ public class SQSListener implements MessageListener {
 
                 }//split Query
                 for (Change changeAttribute: changeList) {
-                    if (alertDefinition.getCustomAttributeSelection()!=null && alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
+                    if (alertDefinition.getCustomAttributeSelection()!=null &&
+                        alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
+                    {
                         matchCount++;
+                    }
+                    if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
+                    {
+                        matchCount++;
+                        break;
+                    }
                 }
                 if(matchCount == 3)
                 {
@@ -94,6 +102,8 @@ public class SQSListener implements MessageListener {
                     AlertQuery aQuery = new AlertQuery();
                     aQuery.setQueryString(query);
                     aQuery.setParam(alertDefinition.getCustomAttributeSelection());
+                    aQuery.setFrom(alertDefinition.getFrom());
+                    aQuery.setTo(alertDefinition.getTo());
                     QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,aQuery);
 
                     log.debug("Invoked Count Service Status = "+queryResponse.getStatus());
@@ -101,40 +111,46 @@ public class SQSListener implements MessageListener {
                     log.debug("Going to send Notification to following tokens  = "+queryResponse.getFirebaseTokens());
 
                     if(queryResponse.getStatus()){
-                        log.debug("Starting firebase Dispatch");
-                        System.out.println("starting firebase disptach");
-                        for (String firebaseToken: queryResponse.getFirebaseTokens()) {
-                            AlertHistory history = new AlertHistory();
-                            history.setTriggeredId(Long.valueOf(event.getId()));
-                            history.setTriggeredType(event.getObject());
-                            history.setDateCreated(Instant.now());
-                            history.setWebSockectRead(false);
-                            history.setCategory(1);
-                            history.setMessage(alertDefinition.getMessage());
-                            history.setSubject(alertDefinition.getTitle());
-                            AlertHistory save = alertHistoryRepository.save(history);
-                            FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
-                            System.out.println("message dispatched");
-                        }
-                        AWSService awsEmail  = new AWSService(sqs);
-                        ThirdPartyDispatch thirdPartyDispatchForEmail = new ThirdPartyDispatch();
-                        List<String> emails = new ArrayList<String>();
-                        emails.add("email");
-                        thirdPartyDispatchForEmail.setChannels(emails);
-                        thirdPartyDispatchForEmail.setMessage(alertDefinition.getMessage());
-                        thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
-                        thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
-                        awsEmail.sendSQS(thirdPartyDispatchForEmail);
+                       String result  = queryResponse.getData();
+                       Integer count = Integer.parseInt(result);
+                       if(count>0)
+                       {
+                           log.debug("Starting firebase Dispatch");
+                           System.out.println("starting firebase disptach");
+                           for (String firebaseToken: queryResponse.getFirebaseTokens()) {
+                               AlertHistory history = new AlertHistory();
+                               history.setTriggeredId(Long.valueOf(event.getId()));
+                               history.setTriggeredType(event.getObject());
+                               history.setDateCreated(Instant.now());
+                               history.setWebSockectRead(false);
+                               history.setCategory(1);
+                               history.setMessage(alertDefinition.getMessage());
+                               history.setSubject(alertDefinition.getTitle());
+                               AlertHistory save = alertHistoryRepository.save(history);
+                               FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
+                               System.out.println("message dispatched");
+                           }
+                           AWSService awsEmail  = new AWSService(sqs);
+                           ThirdPartyDispatch thirdPartyDispatchForEmail = new ThirdPartyDispatch();
+                           List<String> emails = new ArrayList<String>();
+                           emails.add("email");
+                           thirdPartyDispatchForEmail.setChannels(emails);
+                           thirdPartyDispatchForEmail.setMessage(alertDefinition.getMessage());
+                           thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
+                           thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
+                           awsEmail.sendSQS(thirdPartyDispatchForEmail);
 
-                        AWSService awsSms  = new AWSService(sqs);
-                        ThirdPartyDispatch thirdPartyDispatchForSMS = new ThirdPartyDispatch();
-                        List<String> sms = new ArrayList<String>();
-                        sms.add("sms");
-                        thirdPartyDispatchForSMS.setChannels(sms);
-                        thirdPartyDispatchForSMS.setMessage(alertDefinition.getMessage());
-                        thirdPartyDispatchForSMS.setSubject(alertDefinition.getTitle());
-                        thirdPartyDispatchForSMS.setTo((alertDefinition.getRecipientPhoneNumber()));
-                        awsSms.sendSQS(thirdPartyDispatchForSMS);
+                           AWSService awsSms  = new AWSService(sqs);
+                           ThirdPartyDispatch thirdPartyDispatchForSMS = new ThirdPartyDispatch();
+                           List<String> sms = new ArrayList<String>();
+                           sms.add("sms");
+                           thirdPartyDispatchForSMS.setChannels(sms);
+                           thirdPartyDispatchForSMS.setMessage(alertDefinition.getMessage());
+                           thirdPartyDispatchForSMS.setSubject(alertDefinition.getTitle());
+                           thirdPartyDispatchForSMS.setTo((alertDefinition.getRecipientPhoneNumber()));
+                           awsSms.sendSQS(thirdPartyDispatchForSMS);
+                       }
+
 
                     }
                 }else{
