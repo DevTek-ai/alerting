@@ -68,6 +68,27 @@ public class AlertHistory implements Serializable {
     @Column(name="user_login")
     private String login;
 
+    @Column(name="attribute")
+    private String attribute;
+    @Column(name="behaviour")
+    private String behaviour;
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getBehaviour() {
+        return behaviour;
+    }
+
+    public void setBehaviour(String behaviour) {
+        this.behaviour = behaviour;
+    }
+
     public String getLogin() {
         return login;
     }

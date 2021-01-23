@@ -125,6 +125,8 @@ public class SQSListener implements MessageListener {
                                history.setDateCreated(Instant.now());
                                history.setWebSockectRead(false);
                                history.setCategory(1);
+                               history.setAttribute(alertDefinition.getAttributeSelection());
+                               history.setBehaviour(alertDefinition.getBehaviourSelection());
                                history.setMessage(alertDefinition.getMessage());
                                history.setSubject(alertDefinition.getTitle());
                                history.setLogin(user.getLogin());
