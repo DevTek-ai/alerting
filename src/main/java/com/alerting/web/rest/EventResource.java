@@ -88,21 +88,22 @@ public class EventResource {
                 QueryResponse queryResponse = InvokeQuery.getQueryResponse(token,aQuery);
 
                 log.debug("Invoked Count Service Status = "+queryResponse.getStatus());
-                log.debug("Going to send Notification to following tokens  = "+queryResponse.getFirebaseTokens());
 
                 if(queryResponse.getStatus()){
                     log.debug("Starting firebase Dispatch");
-                    for (String firebaseToken: queryResponse.getFirebaseTokens()) {
+                    List<UserForAlert> userForAlerts =  queryResponse.getUserForAlerts();
+                    for (UserForAlert user:userForAlerts) {
 
-                        log.debug("Firebase message dispatched to"+ firebaseToken);
+                        log.debug("Firebase message dispatched to"+ user.getFirebaseToken());
                         AlertHistory history = new AlertHistory();
                         history.setDateCreated(Instant.now());
                         history.setWebSockectRead(false);
                         history.setCategory(1);
                         history.setMessage("default message");
                         history.setSubject("test");
+                        history.setLogin(user.getLogin());
                         AlertHistory save = alertHistoryRepository.save(history);
-                        FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
+                        FirebaseHandler.dispatch(user.getFirebaseToken(),"default message",save.getId());
                     }
 
                 }

@@ -108,7 +108,7 @@ public class SQSListener implements MessageListener {
 
                     log.debug("Invoked Count Service Status = "+queryResponse.getStatus());
                     System.out.println("Invoked Count Service Status = "+queryResponse.getStatus());
-                    log.debug("Going to send Notification to following tokens  = "+queryResponse.getFirebaseTokens());
+
 
                     if(queryResponse.getStatus()){
                        String result  = queryResponse.getData();
@@ -117,7 +117,8 @@ public class SQSListener implements MessageListener {
                        {
                            log.debug("Starting firebase Dispatch");
                            System.out.println("starting firebase disptach");
-                           for (String firebaseToken: queryResponse.getFirebaseTokens()) {
+                           List<UserForAlert> userForAlerts = queryResponse.getUserForAlerts();
+                           for (UserForAlert user : userForAlerts ) {
                                AlertHistory history = new AlertHistory();
                                history.setTriggeredId(Long.valueOf(event.getId()));
                                history.setTriggeredType(event.getObject());
@@ -126,8 +127,10 @@ public class SQSListener implements MessageListener {
                                history.setCategory(1);
                                history.setMessage(alertDefinition.getMessage());
                                history.setSubject(alertDefinition.getTitle());
+                               history.setLogin(user.getLogin());
                                AlertHistory save = alertHistoryRepository.save(history);
-                               FirebaseHandler.dispatch(firebaseToken,"default message",save.getId());
+
+                               FirebaseHandler.dispatch(user.getFirebaseToken(),"default message",save.getId());
                                System.out.println("message dispatched");
                            }
                            AWSService awsEmail  = new AWSService(sqs);

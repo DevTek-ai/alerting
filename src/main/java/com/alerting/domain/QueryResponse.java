@@ -6,17 +6,17 @@ public class QueryResponse {
     private boolean status;
     private String errorMessage;
     private String data;
-    private List<String> firebaseTokens;
+    private List<UserForAlert> userForAlerts;
 
-    public List<String> getFirebaseTokens() {
-        return firebaseTokens;
+    public List<UserForAlert> getUserForAlerts() {
+        return userForAlerts;
     }
 
-    public void setFirebaseTokens(List<String> firebaseTokens) {
-        this.firebaseTokens = firebaseTokens;
+    public void setUserForAlerts(List<UserForAlert> userForAlerts) {
+        this.userForAlerts = userForAlerts;
     }
 
-    // Getter Methods
+// Getter Methods
 
     public boolean getStatus() {
         return status;

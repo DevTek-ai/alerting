@@ -65,6 +65,17 @@ public class AlertHistory implements Serializable {
     @Column(name="triggered_type")
     private String triggeredType;
 
+    @Column(name="user_login")
+    private String login;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     public Long getTriggeredId() {
         return triggeredId;
     }
