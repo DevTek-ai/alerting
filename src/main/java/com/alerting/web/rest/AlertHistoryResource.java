@@ -1,6 +1,9 @@
 package com.alerting.web.rest;
 
+import com.alerting.domain.AlertGraph;
 import com.alerting.domain.AlertHistory;
+import com.alerting.domain.GraphCategory;
+import com.alerting.repository.AlertGraphRepository;
 import com.alerting.repository.AlertHistoryRepository;
 import com.alerting.web.rest.errors.BadRequestAlertException;
 
@@ -17,8 +20,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link com.alerting.domain.AlertHistory}.
@@ -36,9 +39,12 @@ public class AlertHistoryResource {
     private String applicationName;
 
     private final AlertHistoryRepository alertHistoryRepository;
+    private final AlertGraphRepository alertGraphRepository;
 
-    public AlertHistoryResource(AlertHistoryRepository alertHistoryRepository) {
+
+    public AlertHistoryResource(AlertHistoryRepository alertHistoryRepository, AlertGraphRepository alertGraphRepository) {
         this.alertHistoryRepository = alertHistoryRepository;
+        this.alertGraphRepository = alertGraphRepository;
     }
 
     /**
@@ -93,6 +99,26 @@ public class AlertHistoryResource {
     public List<AlertHistory> getAllAlertHistories() {
         log.debug("REST request to get all AlertHistories");
         return alertHistoryRepository.findAll();
+    }
+
+    @GetMapping("/alertgraph")
+    public   List<Map<String, GraphCategory>> getAlertGraphs() {
+        log.debug("REST request to get all AlertHistories");
+        Map<String, List<AlertGraph>> map = alertGraphRepository.findAll().stream().collect(Collectors.groupingBy(a -> a.getMonths()));
+       List<Map<String, GraphCategory>> result = new ArrayList<>();
+       int index =0;
+        for (Map.Entry<String, List<AlertGraph>> entry : map.entrySet()) {
+            List<AlertGraph> list = entry.getValue();
+            GraphCategory category = new GraphCategory();
+            for (AlertGraph graph: list) {
+                if(graph.getCategroy().equals("info")) category.setInfo(graph.getCount());
+               if(graph.getCategroy().equals("critical")) category.setCritical(graph.getCount());
+                if(graph.getCategroy().equals("warning")) category.setWarning(graph.getCount());
+            }
+            result.get(index).put(entry.getKey(),category);
+            index++;
+        }
+        return result;
     }
 
     /**

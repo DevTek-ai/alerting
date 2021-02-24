@@ -88,7 +88,7 @@ public class AlertHistoryResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AlertHistoryResource alertHistoryResource = new AlertHistoryResource(alertHistoryRepository);
+        final AlertHistoryResource alertHistoryResource = new AlertHistoryResource(alertHistoryRepository, alertGraphRepository);
         this.restAlertHistoryMockMvc = MockMvcBuilders.standaloneSetup(alertHistoryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -212,7 +212,7 @@ public class AlertHistoryResourceIT {
             .andExpect(jsonPath("$.[*].receipientEmail").value(hasItem(DEFAULT_RECEIPIENT_EMAIL)))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
     }
-    
+
     @Test
     @Transactional
     public void getAlertHistory() throws Exception {
