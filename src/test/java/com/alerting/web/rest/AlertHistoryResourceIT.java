@@ -2,6 +2,7 @@ package com.alerting.web.rest;
 
 import com.alerting.AlertingApp;
 import com.alerting.domain.AlertHistory;
+import com.alerting.repository.AlertGraphRepository;
 import com.alerting.repository.AlertHistoryRepository;
 import com.alerting.web.rest.errors.ExceptionTranslator;
 
@@ -65,6 +66,9 @@ public class AlertHistoryResourceIT {
 
     @Autowired
     private AlertHistoryRepository alertHistoryRepository;
+
+    @Autowired
+    AlertGraphRepository alertGraphRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
