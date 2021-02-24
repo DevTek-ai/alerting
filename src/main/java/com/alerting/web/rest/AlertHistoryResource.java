@@ -106,6 +106,10 @@ public class AlertHistoryResource {
         log.debug("REST request to get all AlertHistories");
         Map<String, List<AlertGraph>> map = alertGraphRepository.findAll().stream().collect(Collectors.groupingBy(a -> a.getMonths()));
         Map<String, GraphCategory> mapCat = new HashMap<>();
+        boolean month1 = false;
+        boolean month2 = false;
+        boolean month3 = false;
+        boolean month4 = false;
         for (Map.Entry<String, List<AlertGraph>> entry : map.entrySet()) {
             List<AlertGraph> list = entry.getValue();
             GraphCategory category = new GraphCategory();
@@ -115,8 +119,17 @@ public class AlertHistoryResource {
                if(graph.getCategroy().equals("critical")) category.setCritical(count);
                 if(graph.getCategroy().equals("warning")) category.setWarning(count);
             }
+            if(entry.getKey().equals("month1")) month1=true;
+            if(entry.getKey().equals("month2")) month2=true;
+            if(entry.getKey().equals("month3")) month3=true;
+            if(entry.getKey().equals("month4")) month4=true;
             mapCat.put(entry.getKey(),category);
         }
+        if(!month1)  mapCat.put("month1",new GraphCategory());
+        if(!month2)  mapCat.put("month2",new GraphCategory());
+        if(!month3)  mapCat.put("month3",new GraphCategory());
+        if(!month4)  mapCat.put("month4",new GraphCategory());
+
         return mapCat;
     }
 
