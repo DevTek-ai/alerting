@@ -102,23 +102,22 @@ public class AlertHistoryResource {
     }
 
     @GetMapping("/alertgraph")
-    public   List<Map<String, GraphCategory>> getAlertGraphs() {
+    public    Map<String, GraphCategory> getAlertGraphs() {
         log.debug("REST request to get all AlertHistories");
         Map<String, List<AlertGraph>> map = alertGraphRepository.findAll().stream().collect(Collectors.groupingBy(a -> a.getMonths()));
-       List<Map<String, GraphCategory>> result = new ArrayList<>();
-       int index =0;
+        Map<String, GraphCategory> mapCat = new HashMap<>();
         for (Map.Entry<String, List<AlertGraph>> entry : map.entrySet()) {
             List<AlertGraph> list = entry.getValue();
             GraphCategory category = new GraphCategory();
             for (AlertGraph graph: list) {
-                if(graph.getCategroy().equals("info")) category.setInfo(graph.getCount());
-               if(graph.getCategroy().equals("critical")) category.setCritical(graph.getCount());
-                if(graph.getCategroy().equals("warning")) category.setWarning(graph.getCount());
+                Long count = graph.getCount()!=null?graph.getCount():0L;
+                if(graph.getCategroy().equals("info")) category.setInfo(count);
+               if(graph.getCategroy().equals("critical")) category.setCritical(count);
+                if(graph.getCategroy().equals("warning")) category.setWarning(count);
             }
-            result.get(index).put(entry.getKey(),category);
-            index++;
+            mapCat.put(entry.getKey(),category);
         }
-        return result;
+        return mapCat;
     }
 
     /**

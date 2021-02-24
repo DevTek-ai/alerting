@@ -1,9 +1,9 @@
 package com.alerting.domain;
 
 public class GraphCategory {
-    private Long critical;
-    private Long warning;
-    private Long info;
+    private Long critical = 0L;
+    private Long warning = 0L;
+    private Long info = 0L;
 
     public Long getCritical() {
         return critical;
