@@ -175,7 +175,7 @@ jhipster:
 # ===================================================================
 
 # application:
-sqs1-drop-event: https://sqs.us-east-1.amazonaws.com/324351813761/event_dispatch_queue.fifo
+SQS1-DROP-EVENT: https://sqs.us-east-1.amazonaws.com/324351813761/event_dispatch_queue.fifo
 woa-url: "http://localhost"
 woa-user: "admin"
 woa-pass: "admin"

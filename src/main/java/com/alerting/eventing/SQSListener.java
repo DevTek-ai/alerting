@@ -45,7 +45,7 @@ public class SQSListener implements MessageListener {
     @Autowired
      AlertHistoryRepository alertHistoryRepository;
 
-    @Value("${sqs1-drop-event}")
+    @Value("${SQS1-DROP-EVENT}")
     private String sqs;
 
     public void onMessage(Message message) {
