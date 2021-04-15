@@ -112,6 +112,7 @@ public class SQSListener implements MessageListener {
 
                     if(queryResponse.getStatus()){
                        String result  = queryResponse.getData();
+                        log.debug("data received = "+result);
                        Integer count = Integer.parseInt(result);
                        if(count>0)
                        {
