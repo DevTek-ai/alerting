@@ -98,7 +98,9 @@ public class AlertHistoryResource {
     @GetMapping("/alert-histories")
     public List<AlertHistory> getAllAlertHistories() {
         log.debug("REST request to get all AlertHistories");
-        return alertHistoryRepository.findAll();
+        List<AlertHistory> history = alertHistoryRepository.findAll().stream().filter(b->b.getDateCreated()!=null && !b.getStatus().equals("resolved")).collect(Collectors.toList());
+        history.sort(Comparator.comparing(a->a.getDateCreated()));
+        return history;
     }
 
     @GetMapping("/alertgraph")
