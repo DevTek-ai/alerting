@@ -192,7 +192,6 @@ public class SQSListener implements MessageListener {
                                history.setAttribute(alertDefinition.getAttributeSelection());
                                history.setBehaviour(alertDefinition.getBehaviourSelection());
                                history.setMessage(alertDefinition.getMessage());
-                               history.setSubject(alertDefinition.getTitle());
                                history.setLogin(user.getLogin());
                                AlertHistory save = alertHistoryRepository.save(history);
 
