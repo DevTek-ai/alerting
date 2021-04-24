@@ -178,7 +178,17 @@ public class SQSListener implements MessageListener {
                                history.setTriggeredType(event.getObject());
                                history.setDateCreated(Instant.now());
                                history.setWebSockectRead(false);
-                               history.setCategory(1);
+                               String category = alertDefinition.getCategory().name();
+                               if(category.equals("INFO")){
+                                   history.setCategory(Integer.parseInt(category));
+                               }
+                               if(category.equals("WARNING")){
+                                   history.setCategory(Integer.parseInt(category));
+                               }
+                               if(category.equals("ERROR")){
+                                   history.setCategory(Integer.parseInt(category));
+                               }
+                               history.setSubject(event.getName());
                                history.setAttribute(alertDefinition.getAttributeSelection());
                                history.setBehaviour(alertDefinition.getBehaviourSelection());
                                history.setMessage(alertDefinition.getMessage());

@@ -10,6 +10,16 @@ public class Event {
     private String object;
     private Instant date;
     private String action;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private List<Change> changes = new ArrayList<Change>();
 
     public int getId() {
