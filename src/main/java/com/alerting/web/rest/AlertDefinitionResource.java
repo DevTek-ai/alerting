@@ -55,6 +55,14 @@ public class AlertDefinitionResource {
             throw new BadRequestAlertException("A new alertDefinition cannot already have an ID", ENTITY_NAME, "idexists");
         }
         alertDefinition.setDateCreated(Instant.now());
+    if(alertDefinition.getTypeSelection().equals("Project")){
+        alertDefinition.setAttributeSelection("projectStatusId");
+        alertDefinition.setAlertRuleQuery(alertDefinition.getAlertRuleQuery().replace("status","projectStatusId"));
+    }
+        if(alertDefinition.getTypeSelection().equals("Transaction")){
+            alertDefinition.setTypeSelection("ChangeOrder");
+
+        }
         AlertDefinition result = alertDefinitionRepository.save(alertDefinition);
         return ResponseEntity.created(new URI("/api/alert-definitions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -77,7 +85,13 @@ public class AlertDefinitionResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         alertDefinition.setDateUpdated(Instant.now());
-
+        if(alertDefinition.getTypeSelection().equals("Project")){
+            alertDefinition.setAttributeSelection("projectStatusId");
+            alertDefinition.setAlertRuleQuery(alertDefinition.getAlertRuleQuery().replace("status","projectStatusId"));
+        }
+        if(alertDefinition.getTypeSelection().equals("Transaction")){
+            alertDefinition.getTypeSelection().equals("ChangeOrder");
+        }
         AlertDefinition result = alertDefinitionRepository.save(alertDefinition);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, alertDefinition.getId().toString()))

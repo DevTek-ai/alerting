@@ -63,43 +63,96 @@ public class SQSListener implements MessageListener {
             List<AlertDefinition> alertDefinitionList = alertDefinitionRepository.findAll();
             for (AlertDefinition alertDefinition: alertDefinitionList)
             {
-                List<String> splitQuery = new ArrayList<>();
+                int matchCount = 0;
+                List<Change> attributesChangeList = event.getChanges();
                 String query = alertDefinition.getAlertRuleQuery();
+                List<String> userTypes  =  alertDefinition.getUserTypes();
+                if(alertDefinition.getTypeSelection().equalsIgnoreCase(event.getObject())) matchCount++;
+//changeOrderAmount
+               List<String> splitQuery = new ArrayList<>();
                 if(query!=null){
                      splitQuery= Arrays.asList(query.split("[ .]+"));
                 }
-
-                int matchCount = 0;
-                List<Change> changeList = event.getChanges();
                 for (String word: splitQuery)
                 {
-                    if(word.equalsIgnoreCase(event.getObject()))  matchCount++;
+//                    if(word.equalsIgnoreCase(event.getObject()))  matchCount++;
 
-                    for (Change changeAttribute: changeList)
+                    for (Change changedAttribute: attributesChangeList)
                     {
-                        if(word.equalsIgnoreCase(changeAttribute.getAttribute()))  matchCount++;
+                        if(word.equalsIgnoreCase(changedAttribute.getAttribute())) {
+                            matchCount++;
+                            if(alertDefinition.getBehaviourSelection().equals("Change")) {
+                                String oldValue =  changedAttribute.getOldValue();
+                                if(oldValue==null && changedAttribute.getNewValue()!=null ) matchCount++;
+                                else if(oldValue!=null && !changedAttribute.getOldValue().equals(changedAttribute.getNewValue())) matchCount++;
+                            }
+                            if (alertDefinition.getCustomAttributeSelection()!=null &&
+                                    alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changedAttribute.getNewValue()))
+                            {
+                                matchCount++;
+                            }
+                            if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
+                            {
+                                matchCount++;
+                                break;
+                            }
+                        }
                      }//attribute matching
 
 
                 }//split Query
-                for (Change changeAttribute: changeList) {
-                    if (alertDefinition.getCustomAttributeSelection()!=null &&
-                        alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
-                    {
-                        matchCount++;
-                    }
-                    if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
-                    {
-                        matchCount++;
-                        break;
-                    }
-                }
+//                for (Change changedAttribute: attributesChangeList)
+//                {
+//                    //matching attribute
+//                    if(alertDefinition.getAttributeSelection().equals(changedAttribute.getAttribute()))  matchCount++;
+//                    //matching change
+//
+//                }
+//
+//                List<String> splitQuery = new ArrayList<>();
+//                String query = alertDefinition.getAlertRuleQuery();
+//                if(query!=null){
+//                     splitQuery= Arrays.asList(query.split("[ .]+"));
+//                }
+
+//                int matchCount = 0;
+//                List<Change> changeList = event.getChanges();
+//                for (String word: splitQuery)
+//                {
+//                    if(word.equalsIgnoreCase(event.getObject()))  matchCount++;
+//
+//                    for (Change changeAttribute: changeList)
+//                    {
+//                        if(word.equalsIgnoreCase(changeAttribute.getAttribute()))  matchCount++;
+//                     }//attribute matching
+//
+//
+//                }//split Query
+//                for (Change changeAttribute: changeList) {
+//                    if(alertDefinition.getBehaviourSelection().equals("Change")) {
+//                        if(!changeAttribute.getOldValue().equals(changeAttribute.getNewValue())) matchCount++;
+//                    }
+//                    if (alertDefinition.getCustomAttributeSelection()!=null &&
+//                        alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changeAttribute.getNewValue()))
+//                    {
+//                        matchCount++;
+//                    }
+//                    if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
+//                    {
+//                        matchCount++;
+//                        break;
+//                    }
+//                }
                 if(matchCount == 3)
                 {
                     String token = new AuthenticateWOA().getAccessToken();
                     System.out.println("Query matched" + query);
                     log.debug("Query matched"+query);
                     AlertQuery aQuery = new AlertQuery();
+                    if(alertDefinition.getBehaviourSelection().equalsIgnoreCase("Change")){
+                        aQuery.setRunQuery(false);
+                    }
+                    aQuery.setUsers(alertDefinition.getUserTypes());
                     aQuery.setQueryString(query);
                     aQuery.setParam(alertDefinition.getCustomAttributeSelection());
                     aQuery.setFrom(alertDefinition.getFrom());

@@ -1,14 +1,35 @@
 package com.alerting.domain;
 
+
+import java.util.List;
 import java.io.Serializable;
 import java.time.Instant;
 
 public class AlertQuery implements Serializable {
 
     private String queryString;
+    private List<String> users;
+    private boolean runQuery;
     private String param;
     private Instant from;
     private Instant to;
+
+    public List<String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<String> users) {
+        this.users = users;
+    }
+
+
+    public boolean isRunQuery() {
+        return runQuery;
+    }
+
+    public void setRunQuery(boolean runQuery) {
+        this.runQuery = runQuery;
+    }
 
     public Instant getFrom() {
         return from;
@@ -25,6 +46,7 @@ public class AlertQuery implements Serializable {
     public void setTo(Instant to) {
         this.to = to;
     }
+
 
     public String getQueryString() {
         return queryString;
