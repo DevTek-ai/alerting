@@ -12,7 +12,7 @@ import java.time.Instant;
  */
 @Entity
 @Table(name = "alert_history")
-public class AlertHistory implements Serializable {
+public class AlertHistory implements Serializable, Comparable<AlertHistory> {
 
     private static final long serialVersionUID = 1L;
 
@@ -335,5 +335,11 @@ public class AlertHistory implements Serializable {
             ", receipientEmail='" + getReceipientEmail() + "'" +
             ", userId=" + getUserId() +
             "}";
+    }
+
+
+    @Override
+    public int compareTo(AlertHistory o) {
+        return 0;
     }
 }

@@ -23,6 +23,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
+
 /**
  * REST controller for managing {@link com.alerting.domain.AlertHistory}.
  */
@@ -100,7 +102,8 @@ public class AlertHistoryResource {
         log.debug("REST request to get all AlertHistories");
         List<AlertHistory> history = alertHistoryRepository.findAll().stream().sorted().filter(b->b.getDateCreated()!=null && (b.getStatus()==null || (b.getStatus()!=null && !b.getStatus().equals("resolved")))).collect(Collectors.toList());
 
-        history.sort(Comparator.comparing(AlertHistory::getId).reversed());
+        Collections.sort(history,
+                comparing(AlertHistory::getDateCreated).reversed());
         return history;
     }
 
