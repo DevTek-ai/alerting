@@ -67,6 +67,7 @@ public class SQSListener implements MessageListener {
                 List<Change> attributesChangeList = event.getChanges();
                 String query = alertDefinition.getAlertRuleQuery();
                 List<String> userTypes  =  alertDefinition.getUserTypes();
+                String triggeredRule = "";
                 if(alertDefinition.getTypeSelection().equalsIgnoreCase(event.getObject())) matchCount++;
 //changeOrderAmount
                List<String> splitQuery = new ArrayList<>();
@@ -83,13 +84,20 @@ public class SQSListener implements MessageListener {
                             matchCount++;
                             if(alertDefinition.getBehaviourSelection().equals("Change")) {
                                 String oldValue =  changedAttribute.getOldValue();
-                                if(oldValue==null && changedAttribute.getNewValue()!=null ) matchCount++;
-                                else if(oldValue!=null && !changedAttribute.getOldValue().equals(changedAttribute.getNewValue())) matchCount++;
+                                if(oldValue==null && changedAttribute.getNewValue()!=null ) { matchCount++;
+                               triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId())+" "+ alertDefinition.getAttributeSelection() + " Changed to" + changedAttribute.getNewValue();
+                                }
+                                else if(oldValue!=null && !changedAttribute.getOldValue().equals(changedAttribute.getNewValue())) {
+                                    matchCount++;
+                                    triggeredRule = alertDefinition.getTypeSelection()+" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + changedAttribute.getOldValue() + "to "+ changedAttribute.getNewValue();
+                                }
                             }
                             if (alertDefinition.getCustomAttributeSelection()!=null &&
                                     alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changedAttribute.getNewValue()))
                             {
                                 matchCount++;
+                                triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + changedAttribute.getOldValue() + "to "+ changedAttribute.getNewValue();
+
                             }
                             if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
                             {
@@ -188,10 +196,11 @@ public class SQSListener implements MessageListener {
                                if(category.equals("ERROR")){
                                    history.setCategory(3);
                                }
+
                                history.setSubject(event.getName());
                                history.setAttribute(alertDefinition.getAttributeSelection());
                                history.setBehaviour(alertDefinition.getBehaviourSelection());
-                               history.setMessage(alertDefinition.getMessage());
+                               history.setMessage(triggeredRule);
                                history.setLogin(user.getLogin());
                                AlertHistory save = alertHistoryRepository.save(history);
 
@@ -203,7 +212,7 @@ public class SQSListener implements MessageListener {
                            List<String> emails = new ArrayList<String>();
                            emails.add("email");
                            thirdPartyDispatchForEmail.setChannels(emails);
-                           thirdPartyDispatchForEmail.setMessage(alertDefinition.getMessage());
+                           thirdPartyDispatchForEmail.setMessage(triggeredRule);
                            thirdPartyDispatchForEmail.setSubject(alertDefinition.getTitle());
                            thirdPartyDispatchForEmail.setTo(alertDefinition.getRecipientEmailAddress());
                            awsEmail.sendSQS(thirdPartyDispatchForEmail);
@@ -213,7 +222,7 @@ public class SQSListener implements MessageListener {
                            List<String> sms = new ArrayList<String>();
                            sms.add("sms");
                            thirdPartyDispatchForSMS.setChannels(sms);
-                           thirdPartyDispatchForSMS.setMessage(alertDefinition.getMessage());
+                           thirdPartyDispatchForSMS.setMessage(triggeredRule);
                            thirdPartyDispatchForSMS.setSubject(alertDefinition.getTitle());
                            thirdPartyDispatchForSMS.setTo((alertDefinition.getRecipientPhoneNumber()));
                            awsSms.sendSQS(thirdPartyDispatchForSMS);
