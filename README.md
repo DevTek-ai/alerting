@@ -1,3 +1,5 @@
+[![Build status](https://badge.buildkite.com/c20379f337731074382be34ae87b9705b003885e77b815a53f.svg)](https://buildkite.com/DevTek/whiteoaks-eventmicroservice-alerting)
+
 # alerting
 
 This application was generated using JHipster 6.6.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.6.0](https://www.jhipster.tech/documentation-archive/v6.6.0).
