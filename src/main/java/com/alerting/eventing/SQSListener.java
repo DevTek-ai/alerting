@@ -250,8 +250,8 @@ public class SQSListener implements MessageListener {
 
                     }
                 }else{
-                    System.out.println("no Query matched");
-                    log.debug("no Query matched");
+                    System.out.println("no Query matched"+query);
+                    log.debug("no Query matched"+query);
                 }
             }
 
