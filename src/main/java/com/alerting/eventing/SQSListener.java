@@ -96,19 +96,19 @@ public class SQSListener implements MessageListener {
                             if(alertDefinition.getBehaviourSelection().equals("Change")) {
                                 String oldValue =  changedAttribute.getOldValue();
                                 if(oldValue==null && changedAttribute.getNewValue()!=null ) { matchCount++;
-                               triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId())+" "+ alertDefinition.getAttributeSelection() + " Changed to " + changedAttribute.getNewValue();
+                               triggeredRule = alertDefinition.getTypeSelection() +" "+ alertDefinition.getAttributeSelection() + " Changed to " + changedAttribute.getNewValue();
                                 }
                                 else if(oldValue!=null && !changedAttribute.getOldValue().equals(changedAttribute.getNewValue())) {
                                     matchCount++;
 
-                                    triggeredRule = alertDefinition.getTypeSelection()+" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + " to "+ nv;
+                                    triggeredRule = alertDefinition.getTypeSelection()+" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + " to "+ nv;
                                 }
                             }
                             if (alertDefinition.getCustomAttributeSelection()!=null &&
                                     alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changedAttribute.getNewValue()))
                             {
                                 matchCount++;
-                                triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + "to "+ nv;
+                                triggeredRule = alertDefinition.getTypeSelection() +" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + "to "+ nv;
 
                             }
                             if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
