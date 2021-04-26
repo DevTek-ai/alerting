@@ -91,8 +91,11 @@ public class SQSListener implements MessageListener {
                             nv = lk.stream().filter(a->a.getId().equals(Integer.parseInt(changedAttribute.getNewValue()))).collect(Collectors.toList()).get(0).getValue();
 
                         }
+
                         if(word.equalsIgnoreCase(changedAttribute.getAttribute())) {
                             matchCount++;
+                            System.out.println("second count" + matchCount);
+                            log.debug("second count"+matchCount);
                             if(alertDefinition.getBehaviourSelection().equals("Change")) {
                                 String oldValue =  changedAttribute.getOldValue();
                                 if(oldValue==null && changedAttribute.getNewValue()!=null ) { matchCount++;
@@ -170,6 +173,8 @@ public class SQSListener implements MessageListener {
 //                        break;
 //                    }
 //                }
+                System.out.println("match count" + matchCount);
+                log.debug("match count"+matchCount);
                 if(matchCount == 3)
                 {
                     String token = new AuthenticateWOA().getAccessToken();
