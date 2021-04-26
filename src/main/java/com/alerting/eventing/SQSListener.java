@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -50,6 +51,9 @@ public class SQSListener implements MessageListener {
 
     public void onMessage(Message message) {
         try {
+
+
+            List<Lookup> lk = SeedLookup();
             // Cast the received message as TextMessage and print the text to screen.
             System.out.println(
                     "===============================================Received: " + ((TextMessage) message).getText());
@@ -80,23 +84,31 @@ public class SQSListener implements MessageListener {
 
                     for (Change changedAttribute: attributesChangeList)
                     {
+                        String ov = changedAttribute.getOldValue();
+                        String nv =changedAttribute.getNewValue();
+                        if(changedAttribute.getAttribute().equals("projectStatusId") || changedAttribute.getAttribute().equals("Status")){
+                            ov =  lk.stream().filter(a->a.getId().equals(Integer.parseInt(changedAttribute.getOldValue()))).collect(Collectors.toList()).get(0).getValue();
+                            nv = lk.stream().filter(a->a.getId().equals(Integer.parseInt(changedAttribute.getNewValue()))).collect(Collectors.toList()).get(0).getValue();
+
+                        }
                         if(word.equalsIgnoreCase(changedAttribute.getAttribute())) {
                             matchCount++;
                             if(alertDefinition.getBehaviourSelection().equals("Change")) {
                                 String oldValue =  changedAttribute.getOldValue();
                                 if(oldValue==null && changedAttribute.getNewValue()!=null ) { matchCount++;
-                               triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId())+" "+ alertDefinition.getAttributeSelection() + " Changed to" + changedAttribute.getNewValue();
+                               triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId())+" "+ alertDefinition.getAttributeSelection() + " Changed to " + changedAttribute.getNewValue();
                                 }
                                 else if(oldValue!=null && !changedAttribute.getOldValue().equals(changedAttribute.getNewValue())) {
                                     matchCount++;
-                                    triggeredRule = alertDefinition.getTypeSelection()+" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + changedAttribute.getOldValue() + "to "+ changedAttribute.getNewValue();
+
+                                    triggeredRule = alertDefinition.getTypeSelection()+" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + " to "+ nv;
                                 }
                             }
                             if (alertDefinition.getCustomAttributeSelection()!=null &&
                                     alertDefinition.getCustomAttributeSelection().equalsIgnoreCase(changedAttribute.getNewValue()))
                             {
                                 matchCount++;
-                                triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + changedAttribute.getOldValue() + "to "+ changedAttribute.getNewValue();
+                                triggeredRule = alertDefinition.getTypeSelection() +" "+ Long.valueOf(event.getId()) +" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + "to "+ nv;
 
                             }
                             if(alertDefinition.getAlertRuleQuery().contains("BETWEEN"))
@@ -250,5 +262,53 @@ public class SQSListener implements MessageListener {
         } catch(Exception e){
             System.out.println(" EXCEPTION");
         }
+    }
+
+    private List<Lookup> SeedLookup() {
+        List<Lookup> lk = new ArrayList<>();
+        lk.add(new Lookup(1,"Admin"));
+        lk.add(new Lookup(2,"Accounting"));
+        lk.add(new Lookup(3,"Client"));
+        lk.add(new Lookup(4,"General"));
+        lk.add(new Lookup(5,"Project"));
+        lk.add(new Lookup(6,"Vendor"));
+        lk.add(new Lookup(7,"NEW"));
+        lk.add(new Lookup(8,"ACTIVE"));
+        lk.add(new Lookup(9,"PUNCH"));
+        lk.add(new Lookup(  10,"CLOSED"));
+        lk.add(new Lookup(11,"INVOICED"));
+        lk.add(new Lookup(12,"Active"));
+        lk.add(new Lookup(13,"InActive"));
+        lk.add(new Lookup(14,"Do Not Use"));
+        lk.add(new Lookup(15,"Expired"));
+        lk.add(new Lookup(16,"Work Order"));
+        lk.add(new Lookup(17,"Change Order"));
+        lk.add(new Lookup(27,"Vendor Work Order"));
+        lk.add(new Lookup(  28,"Original SOW"));
+        lk.add(new Lookup(29,"Change Order"));
+        lk.add(new Lookup(30,"Draw"));
+        lk.add(new Lookup(31,"Material"));
+        lk.add(new Lookup(32,"Adjustment"));
+        lk.add(new Lookup(33,"CANCELLED"));
+        lk.add(new Lookup(  34,"Active"));
+        lk.add(new Lookup(35,"Cancelled"));
+        lk.add(new Lookup(36,"Completed"));
+
+        lk.add(new Lookup(37,"Paid"));
+        lk.add(new Lookup(38,"Operational"));
+        lk.add(new Lookup(39,"Original SOW"));
+        lk.add(new Lookup(40,"Signed Agreement"));
+        lk.add(new Lookup(41,"PAID"));
+        lk.add(new Lookup(42,"Project Invoice"));
+        lk.add(new Lookup(43,"OTHER"));
+        lk.add(new Lookup(44,"TURNS"));
+        lk.add(new Lookup(45,"OCCUPIED"));
+        lk.add(new Lookup(46,"RENOS"));
+        lk.add(new Lookup(47,"ROOFS"));
+        lk.add(new Lookup(48,"Vendor Invoice"));
+        lk.add(new Lookup(49,"Paid"));
+        lk.add(new Lookup(62,"WO Paid"));
+
+        return lk;
     }
 }
