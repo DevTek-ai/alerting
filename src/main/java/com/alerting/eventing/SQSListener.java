@@ -86,7 +86,7 @@ public class SQSListener implements MessageListener {
                     {
                         String ov = changedAttribute.getOldValue();
                         String nv =changedAttribute.getNewValue();
-                        if(changedAttribute.getAttribute().equals("projectStatusId") || changedAttribute.getAttribute().equals("Status")){
+                        if(changedAttribute.getAttribute().equals("projectStatusId") || changedAttribute.getAttribute().equals("Status") || changedAttribute.getAttribute().equals("Project type") ){
                             ov =  lk.stream().filter(a->a.getId().equals(Integer.parseInt(changedAttribute.getOldValue()))).collect(Collectors.toList()).get(0).getValue();
                             nv = lk.stream().filter(a->a.getId().equals(Integer.parseInt(changedAttribute.getNewValue()))).collect(Collectors.toList()).get(0).getValue();
 
