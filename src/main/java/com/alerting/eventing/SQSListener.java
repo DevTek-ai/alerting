@@ -106,6 +106,10 @@ public class SQSListener implements MessageListener {
                                     if(changedAttribute.getAttribute().equals("projectStatusId")){
                                         triggeredRule = alertDefinition.getTypeSelection()+" Status Changed from " + ov + " to "+ nv;
                                     }
+                                    if(changedAttribute.getAttribute().equals("Project type")){
+                                        triggeredRule = alertDefinition.getTypeSelection()+" Type Changed from " + ov + " to "+ nv;
+                                    }
+
                                     else
                                     triggeredRule = alertDefinition.getTypeSelection()+" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + " to "+ nv;
                                 }
@@ -116,6 +120,9 @@ public class SQSListener implements MessageListener {
                                 matchCount++;
                                 if(changedAttribute.getAttribute().equals("projectStatusId")){
                                     triggeredRule = alertDefinition.getTypeSelection()+" Status Changed from " + ov + " to "+ nv;
+                                }
+                                if(changedAttribute.getAttribute().equals("Project type")){
+                                    triggeredRule = alertDefinition.getTypeSelection()+" Type Changed from " + ov + " to "+ nv;
                                 }
                                 else
                                 triggeredRule = alertDefinition.getTypeSelection() +" "+ alertDefinition.getAttributeSelection() + " Changed from " + ov + "to "+ nv;
