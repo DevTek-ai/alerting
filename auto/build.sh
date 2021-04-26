@@ -15,6 +15,8 @@ REPOSITORY_URI=324351813761.dkr.ecr.us-east-2.amazonaws.com/event-microservice
 
 if [ "prod" = $ENV ]; then  
   REPOSITORY_URI=472350062795.dkr.ecr.us-east-2.amazonaws.com/event-microservice
+elif [ "qa" = $ENV ]; then
+  REPOSITORY_URI=324351813761.dkr.ecr.us-east-2.amazonaws.com/event-microservice-qa
 fi
 
 echo "🛠 Building project..."
