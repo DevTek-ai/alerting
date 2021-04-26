@@ -308,6 +308,11 @@ public class SQSListener implements MessageListener {
         lk.add(new Lookup(48,"Vendor Invoice"));
         lk.add(new Lookup(49,"Paid"));
         lk.add(new Lookup(62,"WO Paid"));
+        lk.add(new Lookup(66,"New"));
+        lk.add(new Lookup(67,"Work In Progress"));
+        lk.add(new Lookup(68,"Paid"));
+        lk.add(new Lookup(69,"Resolved"));
+        lk.add(new Lookup(70,"Rejected"));
 
         return lk;
     }
