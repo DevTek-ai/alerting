@@ -107,10 +107,10 @@ public class AlertHistoryResource {
         return history;
     }
 
-    @GetMapping("/alertgraph")
-    public    Map<String, GraphCategory> getAlertGraphs() {
+    @GetMapping("/alertgraph/{login}")
+    public    Map<String, GraphCategory> getAlertGraphs(@PathVariable String login) {
         log.debug("REST request to get all AlertHistories");
-        Map<String, List<AlertGraph>> map = alertGraphRepository.findAll().stream().collect(Collectors.groupingBy(a -> a.getMonths()));
+        Map<String, List<AlertGraph>> map = alertGraphRepository.findAll().stream().filter(b->b.getLogin().equalsIgnoreCase(login)).collect(Collectors.groupingBy(a -> a.getMonths()));
         Map<String, GraphCategory> mapCat = new HashMap<>();
         boolean month1 = false;
         boolean month2 = false;

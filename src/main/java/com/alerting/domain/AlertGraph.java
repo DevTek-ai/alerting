@@ -19,6 +19,16 @@ public class AlertGraph {
     private String months;
     @Column(name="category")
     private String categroy;
+    @Column(name="user_login")
+    private String login;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
     public Long getId() {
         return id;
