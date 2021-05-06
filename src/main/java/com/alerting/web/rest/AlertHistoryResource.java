@@ -65,7 +65,7 @@ public class AlertHistoryResource {
         alertHistory.setDateCreated(Instant.now());
         AlertHistory result = alertHistoryRepository.save(alertHistory);
         return ResponseEntity.created(new URI("/api/alert-histories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -87,7 +87,7 @@ public class AlertHistoryResource {
         alertHistory.setDateModified(Instant.now());
         AlertHistory result = alertHistoryRepository.save(alertHistory);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, alertHistory.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, alertHistory.getId().toString()))
             .body(result);
     }
 
@@ -162,6 +162,6 @@ public class AlertHistoryResource {
     public ResponseEntity<Void> deleteAlertHistory(@PathVariable Long id) {
         log.debug("REST request to delete AlertHistory : {}", id);
         alertHistoryRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

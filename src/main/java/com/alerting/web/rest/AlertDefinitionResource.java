@@ -133,7 +133,7 @@ public class AlertDefinitionResource {
     public ResponseEntity<Void> deleteAlertDefinition(@PathVariable Long id) {
         log.debug("REST request to delete AlertDefinition : {}", id);
         alertDefinitionRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
     @GetMapping("/ping")
