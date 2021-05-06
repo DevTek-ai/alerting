@@ -182,7 +182,7 @@ public class SQSListener implements MessageListener {
 //                }
                 System.out.println("match count" + matchCount);
                 log.debug("match count"+matchCount);
-                if(matchCount == 3)
+                if(matchCount == 3 && alertDefinition.isNotify())
                 {
                     String token = new AuthenticateWOA().getAccessToken();
                     System.out.println("Query matched" + query);
