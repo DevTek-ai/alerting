@@ -122,7 +122,7 @@ public class AlertHistoryResource {
             for (AlertGraph graph: list) {
                 Long count = graph.getCount()!=null?graph.getCount():0L;
                 if(graph.getCategroy().equals("info")) category.setInfo(count);
-               if(graph.getCategroy().equals("critical")) category.setCritical(count);
+               if(graph.getCategroy().equals("error")) category.setError(count);
                 if(graph.getCategroy().equals("warning")) category.setWarning(count);
             }
             if(entry.getKey().equals("month1")) month1=true;

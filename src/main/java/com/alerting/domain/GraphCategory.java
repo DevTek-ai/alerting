@@ -1,16 +1,16 @@
 package com.alerting.domain;
 
 public class GraphCategory {
-    private Long critical = 0L;
+    private Long error = 0L;
     private Long warning = 0L;
     private Long info = 0L;
 
-    public Long getCritical() {
-        return critical;
+    public Long getError() {
+        return error;
     }
 
-    public void setCritical(Long critical) {
-        this.critical = critical;
+    public void setError(Long error) {
+        this.error = error;
     }
 
     public Long getWarning() {
