@@ -85,7 +85,7 @@ public class AlertDefinitionResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         alertDefinition.setDateUpdated(Instant.now());
-        if(alertDefinition.getTypeSelection().equals("Project")){
+        if(alertDefinition.getTypeSelection().equals("Project") && alertDefinition.getAttributeSelection().equals("Status")){
             alertDefinition.setAttributeSelection("projectStatusId");
             alertDefinition.setAlertRuleQuery(alertDefinition.getAlertRuleQuery().replace("status","projectStatusId"));
         }
