@@ -130,6 +130,20 @@ public class AlertHistoryResource {
         return history;
     }
 
+
+    @DeleteMapping("/alert-histories/project/{id}")
+    public String deleteAllAlertHistoriesByProject(@PathVariable Long id) {
+        log.debug("REST request to delete all project AlertHistories");
+        List<AlertHistory> history = alertHistoryRepository.findAll().stream()
+                .filter(b->b.getDateCreated()!=null && b.getTriggeredType().equals("Project") && b.getTriggeredId().equals(id) &&
+                        (b.getStatus()==null ||
+                                (b.getStatus()!=null
+                                        && !b.getStatus().equals("resolved"))))
+                .collect(Collectors.toList());
+        alertHistoryRepository.deleteAll(history);
+        return "deleted";
+    }
+
     @GetMapping("/alertgraph/{login}")
     public    Map<String, GraphCategory> getAlertGraphs(@PathVariable String login) {
         log.debug("REST request to get all AlertHistories");
